@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_form_design_team" model="ir.ui.view">
+        <field name="name">design.team.member.form.view</field>
+        <field name="model">design.team.member</field>
+        <field name="arch" type="xml">
+            <form string="Design Team">
+                <header>
+                </header>
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="team_manager_id"/>
+                            <field name="team_member_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tree_design_team" model="ir.ui.view">
+        <field name="name">design.team.member.tree.view</field>
+        <field name="model">design.team.member</field>
+        <field name="arch" type="xml">
+            <list string="Design Team" create="1" delete="1">
+                <field name="name"/>
+                <field name="team_manager_id"/>
+                <field name="team_member_ids"  widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!-- Action to open the list view of estimation model -->
+    <record id="action_design_team" model="ir.actions.act_window">
+        <field name="name">Design Team</field>
+        <field name="res_model">design.team.member</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_tree_design_team"/>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Design team
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            name="Design Team"
+            id="menu_design_team"
+            parent="project.menu_project_config"
+            action="action_design_team"
+            sequence="12"
+    />
+
+
+</odoo>

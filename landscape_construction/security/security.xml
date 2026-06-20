@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record model="ir.module.category" id="module_project_team_category">
+        <field name="name">Project Team</field>
+        <field name="sequence">95</field>
+    </record>
+
+     <!--    Inspection User Group-->
+      <record model="res.groups.privilege" id="res_groups_privilege_inspection_category">
+        <field name="name">Inspection</field>
+        <field name="sequence">4</field>
+        <field name="category_id" ref="module_project_team_category"/>
+    </record>
+
+
+    <record model="res.groups" id="group_inspection_user">
+        <field name="name">Inspection User</field>
+        <field name="comment">Can view their Inspection User.</field>
+        <field name="privilege_id" ref="res_groups_privilege_inspection_category"/>
+    </record>
+
+    <record model="res.groups" id="group_inspection_manager">
+        <field name="name">Inspection Manger</field>
+        <field name="comment">Can view their Inspection Manger.</field>
+        <field name="privilege_id" ref="res_groups_privilege_inspection_category"/>
+        <field name="implied_ids" eval="[(4, ref('landscape_construction.group_inspection_user'))]"/>
+    </record>
+
+       <!--    Design User Group-->
+     <record model="res.groups.privilege" id="res_groups_privilege_design_category">
+        <field name="name">Design</field>
+        <field name="sequence">5</field>
+        <field name="category_id" ref="module_project_team_category"/>
+    </record>
+
+    <record model="res.groups" id="group_design_user">
+        <field name="name">Design User</field>
+        <field name="comment">Can view their Design User.</field>
+         <field name="privilege_id" ref="res_groups_privilege_design_category"/>
+    </record>
+    <record model="res.groups" id="group_design_manager">
+        <field name="name">Design Manger</field>
+        <field name="comment">Can view their Design Manger.</field>
+        <field name="privilege_id" ref="res_groups_privilege_design_category"/>
+        <field name="implied_ids" eval="[(4, ref('landscape_construction.group_design_user'))]"/>
+    </record>
+</odoo>

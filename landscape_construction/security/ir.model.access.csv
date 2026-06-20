@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inspection_team_member,inspection.team.member,model_inspection_team_member,,1,1,1,1
+access_design_team_member,design.team.member,model_design_team_member,,1,1,1,1
+

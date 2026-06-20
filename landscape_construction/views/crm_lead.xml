@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="crm_lead_view_form_inherited_afasco" model="ir.ui.view">
+        <field name="name">crm.lead.view.form.inherit.afasco</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//button[@name='action_sale_quotations_new']"
+                   position="after">
+                <button name="action_create_site_inspection"
+                        string="Create Site Inspection" type="object"
+                         invisible="assigned == True"
+                        help="Create Site Inspection" class="btn-primary"
+                />
+            </xpath>
+             <xpath expr="//field[@name='description']" position="after">
+                <group string="Job Detail" name="job_detail">
+                    <field name="project_detail" placeholder="Add a Job detail..." no_label="1"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="before">
+                <h1>
+                    <field name="sequence_code" readonly="1"/>
+                </h1>
+            </xpath>
+             <xpath expr="//field[@name='user_id']" position="after">
+                <field name="quotation_type" widget="badge" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='lost_reason_id']" position="after">
+                <field name="job_name"/>
+                <field name="assigned" invisible="1"/>
+            </xpath>
+             <xpath expr="//widget[@name='web_ribbon']" position="after">
+                <widget name="web_ribbon" title="No Action Taken"
+                        bg_color="text-bg-info"
+                        invisible="quotation_type != 'no_action_taken'"/>
+                 <widget name="web_ribbon" title="Site Inspection"
+                        bg_color="text-bg-info"
+                        invisible="quotation_type != 'site_inspection'"/>
+                  <widget name="web_ribbon" title="Design Review"
+                        bg_color="text-bg-info"
+                        invisible="quotation_type != 'design_review'"/>
+                 <widget name="web_ribbon" title="Under Estimation"
+                        bg_color="text-bg-warning"
+                        invisible="quotation_type != 'waiting_for_estimation'"/>
+                <widget name="web_ribbon" title="Estimation Completed"
+                        bg_color="text-bg-info"
+                        invisible="quotation_type != 'estimation_completed'"/>
+                <widget name="web_ribbon" title="Revise Quotation"
+                        bg_color="text-bg-danger"
+                        invisible="quotation_type != 'quotation_revised'"/>
+                <widget name="web_ribbon" title="Approved Quotation"
+                        bg_color="text-bg-success"
+                        invisible="quotation_type != 'approved'"/>
+                  <widget name="web_ribbon" title="Cancel"
+                        bg_color="text-bg-danger"
+                        invisible="quotation_type != 'cancel'"/>
+                 <widget name="web_ribbon" title="Quote Submitted"
+                        bg_color="text-bg-info"
+                        invisible="quotation_type != 'quote_submitted'"/>
+            </xpath>
+        </field>
+     </record>
+
+     <record id="inherit_crm_case_tree_view_oppor_almayoof" model="ir.ui.view">
+        <field name="name">crm.lead.tree.opportunity.inherit.almayoof</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='stage_id']" position="before">
+                <field name="quotation_type" widget="badge"
+                       decoration-info="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_case_kanban_view_leads_almayoof" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.lead.inherit.almayoof</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="quotation_type" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="quotation_type" widget="badge"
+                       decoration-success="quotation_type == 'approved'"
+                       decoration-danger="quotation_type in ['quotation_revised','cancel']"
+                       decoration-warning="quotation_type == 'waiting_for_estimation'"
+                       decoration-info="quotation_type in ['no_action_taken','estimation_completed','quote_submitted','site_inspection','design_review']"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

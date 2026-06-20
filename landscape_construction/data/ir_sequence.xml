@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequence for CRM Lead -->
+        <record id="seq_crm_lead_code" model="ir.sequence">
+            <field name="name">Lead Sequence</field>
+            <field name="code">crm.lead</field>
+            <field name="prefix">INQ/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_task_inspection" model="ir.sequence">
+            <field name="name">Inspection Task Sequence</field>
+            <field name="code">project.task.inspection</field>
+            <field name="prefix">INS/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_task_design" model="ir.sequence">
+            <field name="name">Design Task Sequence</field>
+            <field name="code">project.task.design</field>
+            <field name="prefix">DSN/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_task_estimation" model="ir.sequence">
+            <field name="name">Estimation Task Sequence</field>
+            <field name="code">project.task.estimation</field>
+            <field name="prefix">EST/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_project_project_code" model="ir.sequence">
+            <field name="name">Project</field>
+            <field name="code">project.sequence</field>
+            <field name="prefix">PRJ/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_material_request_code" model="ir.sequence">
+            <field name="name">Material Request Code</field>
+            <field name="code">material.request.code</field>
+            <field name="prefix">MRQ/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+        </record>
+
+
+    </data>
+</odoo>
