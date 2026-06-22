@@ -15,12 +15,10 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-from . import inspection_team
-from . import design_team
-from . import res_company
-from . import hr_job
-from . import crm_lead
-from . import product_product
-from . import project_project
-from . import project_task
-# from . import sales_order
+from odoo import api, models, fields, _
+
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+
+
+    sales_profit = fields.Float(string="Sales profit(%)")

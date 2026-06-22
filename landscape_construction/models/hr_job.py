@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 #############################################################################
 #    Alhodood Technologies.
+#
 #    Copyright (C) 2024-TODAY Alhodood Technologies(<https://www.alhodood.com>)
 #    Author: Alhodood Technologies(<https://www.alhodood.com>)
-#    You can modify it under the terms of the GNU Affero General Public License
-#    (AGPL v3), Version 3.
+#
+#    You can modify it under the terms of the GNU Affero General Public License (AGPL v3), Version 3.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,12 +17,10 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-from . import inspection_team
-from . import design_team
-from . import res_company
-from . import hr_job
-from . import crm_lead
-from . import product_product
-from . import project_project
-from . import project_task
-# from . import sales_order
+
+from odoo import api, models, fields
+
+class HrJob(models.Model):
+    _inherit = 'hr.job'
+
+    hour_rate = fields.Float('Hour rate')

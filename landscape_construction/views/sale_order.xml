@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_form_view_inherited_afasco" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.afasco</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='validity_date']" position="after">
+                <field name="design_charge"
+                       readonly="1"/>
+                <field name="parent_task" invisible="1"/>
+                <field name="estimated_task" readonly="1"/>
+                <field name="estimated_amount"
+                    readonly="1"/>
+                <field name="new_sale_id" invisible="1"/>
+                <field name="crm_id" />
+<!--                <field name="invoice_paid_ok" invisible="1"/>-->
+<!--                <field name="create_pr" invisible="1"/>-->
+<!--                <field name="project_creation_approved" readonly="1"  invisible="trading_company == True"/>-->
+                <field name="job_name"  />
+<!--                <field name="project_id"  invisible="create_pr == False"/>-->
+            </xpath>
+            <xpath expr="//page[@name='order_lines']" position="after">
+                <page string="Revision Lines" name="old_order_lines" >
+                    <field name="old_sale_ids" widget="one2many">
+                        <list string="Old Sales" editable="bottom">
+                            <field name="name"/>
+                            <field name="company_id" column_invisible="1"/>
+                            <field name="partner_id"
+                                   context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}"
+                                   placeholder="Type to find a customer..."
+                                   readonly="state in ['cancel', 'sale']"/>
+                            <field name="amount_total"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//button[@name='action_quotation_send']"
+                   position="after">
+                <button name="action_refuse_task_estimation" string="Revision"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="state in ['revision','sale']  or trading_company == True"
+                />
+<!--                <button name="action_create_project" string="Create Project"-->
+<!--                        type="object" class="oe_highlight" data-hotkey="o"-->
+<!--                        invisible="state not in ['sale']  or trading_company == True or create_pr == True"-->
+<!--                />-->
+<!--                <button name="action_approve_project_creation"-->
+<!--                        string="Approve Project Creation"-->
+<!--                        type="object"-->
+<!--                        groups="al_mayoof_customizatioon.group_project_creation_wo_advance"-->
+<!--                        invisible="invoice_paid_ok == True or  project_creation_approved == True or trading_company == True or state not in ['sale'] "/>-->
+            </xpath>
+        </field>
+    </record>
+</odoo>

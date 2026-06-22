@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_inspection_document">
+            <t t-call="web.basic_layout">
+                <div t-attf-class="header">
+                    <div class="row">
+                        <div class="col-5" style="text-align: left;">
+                            <div class="company-logo" style="text-align: left;">
+                                <img t-if="env.company.logo" t-att-src="image_data_uri(env.company.logo)"
+                                     style="max-height: 99px;align-content:center !important;width:180px;"
+                                     alt="Logo"/>
+                            </div>
+                        </div>
+                        <div class="col-7" style="text-align: right;">
+                            <div class="company-info">
+                                <ul class="list-unstyled" style="font-size:14px;">
+                                    <li>
+                                        <span t-esc="env.company.partner_id.name"/>
+                                    </li>
+                                    <li>
+                                        <span t-esc="env.company.partner_id.street"/>
+                                    </li>
+                                    <li>
+                                        <span t-esc="env.company.partner_id.state_id.name"/>,
+                                        <span t-esc="env.company.partner_id.country_id.name"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid lightgray; margin-bottom: 10px;"></div>
+                </div>
+                <div class="mt-0">
+                    <div class="page">
+                        <h2 style="text-align: center;">Inspection Report for
+                            <t t-esc="o.name"/>
+                        </h2>
+                        <div class="into_page" style="position: relative; height: 100%; width: 100%;">
+                            <!-- Background Image -->
+                            <h5 t-esc="o.description"/>
+                        </div>
+                        <br></br>
+                        <t t-foreach="o.inspection_attachment_ids" t-as="page">
+                            <div class="proposal-page" style="text-align: center;">
+                                <h5 t-esc="page.description"/>
+                                <img t-if="page.images" t-att-src="image_data_uri(page.images)"
+                                     style="max-width: 100%; max-height: 300px;align-items: center;"/>
+                            </div>
+                        </t>
+                        <br/>
+                    </div>
+                </div>
+                <div t-attf-class="footer o_standard_footer">
+                    <div class="text-center">
+                        <div style="border-top: 2px solid black; margin-bottom: 10px;"></div>
+                        <div t-if="report_type == 'pdf'" class="text-muted">
+                            Page:
+                            <span class="page"/>
+                            of
+                            <span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_inspection_fsm">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.partner_id.lang"/>
+                    <t t-if="o._is_inspection_task">
+                        <t t-call="landscape_construction.report_inspection_document"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

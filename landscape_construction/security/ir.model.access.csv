@@ -1,4 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_inspection_team_member,inspection.team.member,model_inspection_team_member,,1,1,1,1
 access_design_team_member,design.team.member,model_design_team_member,,1,1,1,1
+access_inspection_attachment,inspection.attachment,model_inspection_attachment,,1,1,1,1
+access_design_attachment,design.attachment,model_design_attachment,,1,1,1,1
+access_labour_estimation,labour.estimation,model_labour_estimation,,1,1,1,1
+access_material_estimation,material.estimation,model_material_estimation,,1,1,1,1
+access_other_over_head,other.over.head,model_other_over_head,,1,1,1,1
 

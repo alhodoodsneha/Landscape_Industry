@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_task_form_inherited_arm" model="ir.ui.view">
+        <field name="name">project.task.form.inherit.arm</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="_is_inspection_task" invisible="1"/>
+                 <field name="crm_lead_id"
+                       readonly="1"/>
+                     <field name="_is_design_task" invisible="1"/>
+                     <field name="is_design_completed" invisible="1"/>
+                  <field name="_is_estimation_task" invisible="1"/>
+                <field name="estimation_parent_id" invisible="1"/>
+                <field name="_revision_task" invisible="1"/>
+                <field name="revision_count" invisible="1"/>
+                <field name="estimation_status" readonly="1"
+                       invisible="_is_estimation_task == False and _revision_task == False"/>
+                <field name="total_estimation"
+                       invisible="_is_estimation_task == False and _revision_task == False"/>
+                   <field name="design_charge"
+                       invisible="_is_estimation_task == False and _revision_task == False"/>
+                  <field name="sales_profit"
+                       invisible="_is_estimation_task == False and _revision_task == False"/>
+                  <field name="total_sales"
+                       invisible="_is_estimation_task == False and _revision_task == False"/>
+            </xpath>
+            <xpath expr="//field[@name='milestone_id']" position="before">
+                <field name="sequence_code" readonly="1"/>
+            </xpath>
+             <xpath expr="//field[@name='description']" position="after">
+                <label for="refuse_reason"  invisible="_is_estimation_task == False and _revision_task == False"/>
+                <field name="refuse_reason" readonly="1"  invisible="_is_estimation_task == False and _revision_task == False"/>
+            </xpath>
+            <xpath expr="//page[@name='description_page']" position="after">
+                <page name="inspection_attachment_ids" string="Attachment"
+                      invisible="_is_inspection_task == False">
+                    <field name="inspection_attachment_ids" widget="one2many"
+                           readonly="is_completed == True">
+                        <list string="Inspection" editable="bottom"
+                              readonly="is_completed == True">
+                            <field name="task_id" column_invisible="1"/>
+                            <field name="is_completed" column_invisible="1"/>
+                            <field name="description"
+                                   readonly="is_completed == True"/>
+                            <field name="images" widget="image"
+                                   readonly="is_completed == True"/>
+                        </list>
+                    </field>
+                </page>
+                <page name="design_attachment_ids" string="Attachment"
+                      invisible="_is_design_task == False">
+                    <field name="design_attachment_ids" widget="one2many"
+                           readonly="is_design_completed == True">
+                        <list string="Design" editable="bottom"
+                              readonly="is_design_completed == True">
+                            <field name="task_id" column_invisible="1"/>
+                            <field name="is_design_completed"
+                                   column_invisible="1"/>
+                            <field name="description"
+                                   readonly="is_design_completed == True"/>
+                            <field name="images" widget="image"
+                                   readonly="is_design_completed == True"/>
+                        </list>
+                    </field>
+                </page>
+                 <page name="material_estimation_ids"
+                      string="Material Estimation"
+                      invisible="_is_estimation_task == False and _revision_task == False or trading_company == True">
+                    <field name="material_estimation_ids" widget="one2many">
+                        <list string="Material Estimation" editable="bottom">
+                            <field name="task_id" column_invisible="1"/>
+                            <field name="name" column_invisible="1"/>
+                            <field name="product_id"
+                                   options="{'no_create': False}"
+                                   required="1"/>
+                            <field name="project_id" column_invisible="1"/>
+                            <field name="description"/>
+                            <field name="qty"/>
+                            <field name="uom_id"/>
+                            <field name="unit_price"/>
+                            <field name="subtotal"/>
+                        </list>
+                    </field>
+                    <div class="oe_title"
+                         style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                        <label for="total_material_estimation"
+                               string="Total Material Estimation:"
+                               style="margin-right: 5px;"/>
+                        <field name="total_material_estimation"/>
+                    </div>
+                </page>
+                <page name="labour_estimation" string="Labour Estimation"
+                      invisible="_is_estimation_task == False and _revision_task == False or trading_company == True">
+                    <field name="labour_estimation_ids" widget="one2many">
+                        <list string="Labour Estimation" editable="bottom">
+                            <field name="task_id" column_invisible="1"/>
+                            <field name="name" column_invisible="1"/>
+                            <field name="labour_id"/>
+                            <field name="project_id" column_invisible="1"/>
+                            <field name="description"/>
+                            <field name="qty"/>
+                            <field name="hour"/>
+                            <field name="unit_price"/>
+                            <field name="total_hour"/>
+                            <field name="subtotal"/>
+                        </list>
+                    </field>
+                    <div class="oe_title"
+                         style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                        <label for="total_labour_estimation"
+                               string="Total Labour Estimation:"
+                               style="margin-right: 5px;"/>
+                        <field name="total_labour_estimation"/>
+                    </div>
+                </page>
+                <page name="other_over_head" string="Other Over Head"
+                      invisible="_is_estimation_task == False and _revision_task == False or trading_company == True">
+                    <field name="other_over_head_ids" widget="one2many">
+                        <list string="Other Over Head" editable="bottom">
+                            <field name="task_id" column_invisible="1"/>
+                            <field name="project_id" column_invisible="1"/>
+                            <field name="name" column_invisible="1"/>
+                            <field name="service_product"/>
+                            <field name="description"/>
+                            <field name="qty"/>
+                            <field name="unit_price"/>
+                            <field name="subtotal"/>
+                        </list>
+                    </field>
+                    <div class="oe_title"
+                         style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                        <label for="total_over_head" string="Total Over Head:"
+                               style="margin-right: 5px;"/>
+                        <field name="total_over_head"/>
+                    </div>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='stage_id']" position="before">
+                <button name="action_completed_inspection" string="Completed"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="_is_inspection_task == False or is_completed == True"/>
+                <button name="%(action_report_inspection_task)d"
+                        string="Inspection Report"
+                        type="action"
+                        class="btn-primary"
+                        invisible="_is_inspection_task == False"
+                />
+                <button name="action_completed_design" string="Completed"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="_is_design_task == False or is_design_completed == True"/>
+                 <button name="action_approve_estimation" string="Approve"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="estimation_status in ['approve', 'refuse_estimation'] or _is_estimation_task == False or _revision_task ==True"/>
+                <button name="action_approve_revision_estimation"
+                        string="Approve"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="estimation_status in ['approve', 'refuse_estimation'] or _revision_task == False"/>
+                <button name="action_refuse_estimation" string="Revision"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="estimation_status in ['approve', 'refuse_estimation'] or _is_estimation_task == False or _revision_task ==True"/>
+                <button name="action_refuse_revision_estimation"
+                        string="Revision"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="estimation_status in ['approve', 'refuse_estimation'] or _revision_task == False"/>
+            </xpath>
+            <xpath expr="//widget[@name='web_ribbon']" position="after">
+                <widget name="web_ribbon" title="Approve Estimation"
+                        bg_color="text-bg-success"
+                        invisible="estimation_status != 'approve' or _is_estimation_task == False and _revision_task == False"/>
+                <widget name="web_ribbon" title="Refuse Estimation"
+                        bg_color="text-bg-warning"
+                        invisible="estimation_status != 'refuse_estimation' or _is_estimation_task == False and _revision_task == False"/>
+                <widget name="web_ribbon" title="Cancel"
+                        bg_color="text-bg-danger"
+                        invisible="estimation_status != 'cancel' or _is_estimation_task == False and _revision_task == False"/>
+                <widget name="web_ribbon" title="Under Estimation"
+                        bg_color="text-bg-info"
+                        invisible="estimation_status != 'under_estimation' or _is_estimation_task == False and _revision_task == False"/>
+            </xpath>
+
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="action_open_related_sale_order" type="object"
+                        string="Sale Order" icon="fa-pencil-square-o"
+                        class="btn-primary" invisible="_is_estimation_task == False"
+                />
+                <button name="action_related_sale_order" type="object"
+                        string="Sale Order" icon="fa-pencil-square-o"
+                        class="btn-primary" invisible="_revision_task == False"
+                />
+            </xpath>
+
+        </field>
+    </record>
+
+        <record id="view_task_kanban_inherit_all_task_inherited_almayoof"
+            model="ir.ui.view">
+        <field name="name">project.task.kanban.property.inherit.almayoof</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='stage_id']" position="after">
+                <field name="_is_estimation_task" invisible="1"/>
+                <field name="_revision_task" invisible="1"/>
+                <field name="estimation_status" invisible="1"/>
+            </xpath>
+            <xpath expr="//main/field[@name='name']" position="before">
+                <field name="estimation_status" widget="badge"
+                       decoration-success="estimation_status in[ 'approve']"
+                       decoration-warning="estimation_status == 'refuse_estimation'"
+                       decoration-danger="estimation_status == 'cancel'"
+                       decoration-info="estimation_status in['under_estimation']"
+                       invisible="_is_estimation_task == False and _revision_task == False"/>
+            </xpath>
+        </field>
+    </record>
+
+     <record id="action_inspection_task" model="ir.actions.act_window">
+        <field name="name">Inspection Task</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="project.view_task_search_form"/>
+        <field name="domain">[('_is_inspection_task', '=', True)]</field>
+        <field name="context">{'default__is_inspection_task':
+            True,'search_default_open_tasks':
+            1,'create': False,'delete': False,}
+        </field>
+        <field name="help" type="html">
+            <p>View Inspection Task</p>
+        </field>
+    </record>
+
+     <record id="action_design_task" model="ir.actions.act_window">
+        <field name="name">Design Task</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="project.view_task_search_form"/>
+        <field name="domain">[('_is_design_task', '=', True)]</field>
+        <field name="context">{'default__is_design_task': True,'search_default_open_tasks': 1,'create': False,'delete': False,}
+        </field>
+        <field name="help" type="html">
+            <p>View Design Task</p>
+        </field>
+    </record>
+
+       <record id="action_estimation_task" model="ir.actions.act_window">
+        <field name="name">Estimation Task</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="project.view_task_search_form"/>
+        <field name="view_id" ref="project.view_task_kanban"/>
+        <field name="domain">['|',('_is_estimation_task', '=', True),('_revision_task', '=', True)]</field>
+        <field name="context">{'search_default_open_tasks':
+            1,'create': False,'delete': False,}
+        </field>
+        <field name="help" type="html">
+            <p>View Estimation Task</p>
+        </field>
+    </record>
+
+     <menuitem
+            name="Design Task"
+            id="menu_design_task"
+            action="action_design_task"
+            parent="project.menu_main_pm"
+            groups="landscape_construction.group_design_user,landscape_construction.group_design_manager"
+            sequence="8"
+    />
+
+     <menuitem
+            name="Inspection Task"
+            id="menu_inspection_task"
+            action="action_inspection_task"
+            parent="project.menu_main_pm"
+            groups="landscape_construction.group_inspection_user,landscape_construction.group_inspection_manager"
+            sequence="8"
+    />
+
+      <menuitem
+            name="Estimation Task"
+            id="menu_estimation_task"
+            action="action_estimation_task"
+            parent="project.menu_main_pm"
+            groups="landscape_construction.group_estimation_user,landscape_construction.group_estimation_manager"
+            sequence="8"
+    />
+
+</odoo>

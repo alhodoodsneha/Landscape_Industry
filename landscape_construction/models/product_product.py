@@ -15,12 +15,13 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-from . import inspection_team
-from . import design_team
-from . import res_company
-from . import hr_job
-from . import crm_lead
-from . import product_product
-from . import project_project
-from . import project_task
-# from . import sales_order
+from odoo import models, fields, _, api
+
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    estimation_ok = fields.Boolean(
+        string="Estimation",
+        default=False
+    )
