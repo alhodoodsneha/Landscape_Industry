@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="site_operation_report_wizard_form_view" model="ir.ui.view">
+        <field name="name">site.operation.report.wizard.form.view</field>
+        <field name="model">site.operation.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Site Operation Report">
+                <group>
+                    <field name="project_id" required="1"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </group>
+                <footer>
+                    <button name="action_print_xlsx" type="object"
+                            string="Print" class="btn-primary"/>
+                    <button special="cancel" data-hotkey="z" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_site_operation_report_wizard" model="ir.actions.act_window">
+        <field name="name">Site Operation Report</field>
+        <field name="res_model">site.operation.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="site_operation_report_wizard_form_view"/>
+    </record>
+
+      <menuitem id="menu_site_operation_report_print"
+                  name="Site Operation Detail Report"
+                  sequence="7"
+                parent="landscape_construction.menu_site_operation_root"
+                  action="action_site_operation_report_wizard"/>
+</odoo>

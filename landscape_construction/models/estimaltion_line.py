@@ -96,14 +96,14 @@ class OtherOverHead(models.Model):
     unit_price = fields.Float(string="Unit Price", default=0.0)
     subtotal = fields.Float(string="SubTotal", compute='_compute_subtotal')
 
-    @api.onchange('product_id')
+    @api.onchange('service_product')
     def _onchange_product_id(self):
         if self.service_product:
             self.unit_price = self.service_product.standard_price
         else:
             self.unit_price = 0.0
 
-    @api.depends('project_id', 'qty', 'unit_price')
+    @api.depends('service_product', 'qty', 'unit_price')
     def _compute_subtotal(self):
         for rec in self:
             rec.subtotal = rec.qty * rec.unit_price

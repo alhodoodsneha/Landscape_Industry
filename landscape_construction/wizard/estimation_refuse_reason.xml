@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="estimation_rejection_wizard_form_view" model="ir.ui.view">
+        <field name="name">estimation.rejection.wizard.form.view</field>
+        <field name="model">estimation.rejection.wizard</field>
+        <field name="arch" type="xml">
+            <form string="ESTIMATION REJECTION FEEDBACK">
+                <group>
+                    <field name="feedback"/>
+                </group>
+                <footer>
+                    <button name="action_add_feedback" type="object"
+                            string="Done" class="btn-primary"/>
+                    <button special="cancel" data-hotkey="z" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_estimation_rejection_wizard"
+            model="ir.actions.act_window">
+        <field name="name">Estimation Rejection Feedback</field>
+        <field name="res_model">estimation.rejection.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="estimation_rejection_wizard_form_view"/>
+    </record>
+
+    <record id="quotation_rejection_wizard_form_view" model="ir.ui.view">
+        <field name="name">quotation.rejection.wizard.form.view</field>
+        <field name="model">quotation.rejection.wizard</field>
+        <field name="arch" type="xml">
+            <form string="QUOTATION REJECTION FEEDBACK">
+                <group>
+                    <field name="feedback"/>
+                </group>
+                <footer>
+                    <button name="action_add_feedback" type="object"
+                            string="Done" class="btn-primary"/>
+                    <button special="cancel" data-hotkey="z" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_quotation_rejection_wizard"
+            model="ir.actions.act_window">
+        <field name="name">Quotation Rejection Feedback</field>
+        <field name="res_model">quotation.rejection.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="quotation_rejection_wizard_form_view"/>
+    </record>
+</odoo>

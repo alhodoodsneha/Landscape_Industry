@@ -45,4 +45,85 @@
         <field name="privilege_id" ref="res_groups_privilege_design_category"/>
         <field name="implied_ids" eval="[(4, ref('landscape_construction.group_design_user'))]"/>
     </record>
+
+      <!--    Estimation User Group-->
+      <record model="res.groups.privilege" id="res_groups_privilege_estimation_category">
+        <field name="name">Estimation</field>
+        <field name="sequence">6</field>
+        <field name="category_id" ref="module_project_team_category"/>
+    </record>
+    <record model="res.groups" id="group_estimation_user">
+        <field name="name">Estimation User</field>
+        <field name="comment">Can view their Estimation User.</field>
+        <field name="privilege_id" ref="res_groups_privilege_estimation_category"/>
+    </record>
+    <record model="res.groups" id="group_estimation_manager">
+        <field name="name">Estimation Manger</field>
+         <field name="comment">Can view their Estimation Manger.</field>
+       <field name="privilege_id" ref="res_groups_privilege_estimation_category"/>
+        <field name="implied_ids" eval="[(4, ref('landscape_construction.group_estimation_user'))]"/>
+    </record>
+
+         <!--    Project Manager User Group-->
+       <record model="res.groups.privilege" id="res_groups_privilege_landscape_project_manager_category">
+        <field name="name">Project</field>
+        <field name="sequence">7</field>
+        <field name="category_id" ref="module_project_team_category"/>
+    </record>
+    <record model="res.groups" id="group_landscape_project_team_manager">
+        <field name="name">Project Manager</field>
+        <field name="comment">Assign As A Project Manager While Create A Project.</field>
+        <field name="privilege_id" ref="res_groups_privilege_landscape_project_manager_category"/>
+    </record>
+
+       <!--    Project Invoice Creation User Group-->
+       <record model="res.groups.privilege" id="res_groups_privilege_landscape_invoice_creation_category">
+        <field name="name">Project Invoice</field>
+        <field name="sequence">8</field>
+        <field name="category_id" ref="module_project_team_category"/>
+    </record>
+    <record model="res.groups" id="group_allow_create_invoice">
+        <field name="name">Invoice Creator</field>
+        <field name="comment">User Create Project Invoice.</field>
+        <field name="privilege_id" ref="res_groups_privilege_landscape_invoice_creation_category"/>
+    </record>
+
+     <!--   Material Request User Group-->
+    <record model="res.groups.privilege" id="res_groups_privilege_landscape_material_request">
+        <field name="name">Material Request</field>
+        <field name="sequence">9</field>
+        <field name="category_id" ref="module_project_team_category"/>
+    </record>
+
+      <record model="res.groups" id="group_material_request">
+          <field name="name">Material Request</field>
+          <field name="comment">User View Material Request.</field>
+          <field name="privilege_id" ref="res_groups_privilege_landscape_material_request"/>
+    </record>
+
+     <record model="res.groups.privilege" id="res_groups_privilege_material_request_approver">
+        <field name="name">Material Request Approver</field>
+        <field name="sequence">10</field>
+        <field name="category_id" ref="module_project_team_category"/>
+    </record>
+
+     <record model="res.groups" id="group_material_request_approver">
+        <field name="name">Material Request Approver</field>
+         <field name="comment">User View Material Request Approver.</field>
+          <field name="privilege_id" ref="res_groups_privilege_material_request_approver"/>
+    </record>
+
+      <!--   Site Operation User Group-->
+    <record model="res.groups.privilege" id="res_groups_privilege_landscape_site_operation">
+        <field name="name">Site Operation</field>
+        <field name="sequence">11</field>
+        <field name="category_id" ref="module_project_team_category"/>
+    </record>
+
+      <record model="res.groups" id="group_site_operation">
+          <field name="name">Site Operation view</field>
+          <field name="comment">User View Site Operation.</field>
+          <field name="privilege_id" ref="res_groups_privilege_landscape_site_operation"/>
+    </record>
+
 </odoo>

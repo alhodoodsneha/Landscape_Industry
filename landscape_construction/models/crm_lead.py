@@ -52,7 +52,7 @@ class CRMLead(models.Model):
             raise UserError(_("Please Configure The Inspection Team"))
         if not self.date_deadline:
             raise UserError(_("Please Add closing date"))
-        is_internal_pr = self.env['project.project'].sudo().search([('is_internal','=',True),('company_id','=',self.company_id.id)])
+        is_internal_pr = self.env['project.project'].search([('is_internal','=',True),('company_id','=',self.company_id.id)])
         if not is_internal_pr:
             is_internal_pr = self.env['project.project'].sudo().create({
                 'name': "Internal Work",

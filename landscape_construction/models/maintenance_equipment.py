@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 #############################################################################
 #    Alhodood Technologies.
+#
 #    Copyright (C) 2024-TODAY Alhodood Technologies(<https://www.alhodood.com>)
 #    Author: Alhodood Technologies(<https://www.alhodood.com>)
-#    You can modify it under the terms of the GNU Affero General Public License
-#    (AGPL v3), Version 3.
+#
+#    You can modify it under the terms of the GNU Affero General Public License (AGPL v3), Version 3.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +17,13 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-from . import models
-from . import wizard
+from odoo import models, fields, api
 
+
+class MaintenanceEquipment(models.Model):
+    _inherit = 'maintenance.equipment'
+
+    fleet_id = fields.Many2one(
+        'fleet.vehicle',
+        string="Fleet"
+    )

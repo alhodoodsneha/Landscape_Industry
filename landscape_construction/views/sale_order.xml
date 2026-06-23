@@ -10,15 +10,12 @@
                        readonly="1"/>
                 <field name="parent_task" invisible="1"/>
                 <field name="estimated_task" readonly="1"/>
-                <field name="estimated_amount"
-                    readonly="1"/>
+                <field name="estimated_amount" readonly="1"/>
                 <field name="new_sale_id" invisible="1"/>
                 <field name="crm_id" />
-<!--                <field name="invoice_paid_ok" invisible="1"/>-->
-<!--                <field name="create_pr" invisible="1"/>-->
-<!--                <field name="project_creation_approved" readonly="1"  invisible="trading_company == True"/>-->
+                <field name="create_pr" invisible="1"/>
                 <field name="job_name"  />
-<!--                <field name="project_id"  invisible="create_pr == False"/>-->
+                <field name="project_id"  invisible="create_pr == False"/>
             </xpath>
             <xpath expr="//page[@name='order_lines']" position="after">
                 <page string="Revision Lines" name="old_order_lines" >
@@ -40,18 +37,19 @@
                    position="after">
                 <button name="action_refuse_task_estimation" string="Revision"
                         type="object" class="oe_highlight" data-hotkey="o"
-                        invisible="state in ['revision','sale']  or trading_company == True"
+                        invisible="state in ['revision','sale']"
                 />
-<!--                <button name="action_create_project" string="Create Project"-->
-<!--                        type="object" class="oe_highlight" data-hotkey="o"-->
-<!--                        invisible="state not in ['sale']  or trading_company == True or create_pr == True"-->
-<!--                />-->
-<!--                <button name="action_approve_project_creation"-->
-<!--                        string="Approve Project Creation"-->
-<!--                        type="object"-->
-<!--                        groups="al_mayoof_customizatioon.group_project_creation_wo_advance"-->
-<!--                        invisible="invoice_paid_ok == True or  project_creation_approved == True or trading_company == True or state not in ['sale'] "/>-->
+                <button name="action_create_project" string="Create Project"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="state not in ['sale'] or create_pr == True"
+                />
             </xpath>
+            <xpath expr="//button[@id='create_invoice']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+             <xpath expr="//button[@id='create_invoice_percentage']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
         </field>
     </record>
 </odoo>

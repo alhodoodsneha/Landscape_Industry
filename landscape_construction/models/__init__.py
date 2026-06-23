@@ -17,10 +17,17 @@
 #############################################################################
 from . import inspection_team
 from . import design_team
-from . import res_company
+from . import estimation_team
 from . import hr_job
 from . import crm_lead
 from . import product_product
 from . import project_project
+from . import project_milestone
+from . import estimaltion_line
 from . import project_task
-# from . import sales_order
+from . import sales_order
+from . import account_move
+from . import material_request
+from . import purchase
+from . import maintenance_equipment
+from . import site_operation

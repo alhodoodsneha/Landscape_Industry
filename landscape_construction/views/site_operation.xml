@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="site_operation_report_form" model="ir.ui.view">
+        <field name="name">site.operation.report.form</field>
+        <field name="model">site.operation.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit"
+                            type="object"
+                            string="Submit"
+                            invisible="state != 'draft'"/>
+                    <button name="action_approve"
+                            type="object"
+                            string="Approve"
+                            invisible="state != 'submitted'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                     <div class="oe_title">
+                        <h2>
+                            <field name="name"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="date"/>
+                            <field name="site_engineer_id"/>
+                        </group>
+                        <group></group>
+                    </group>
+                    <notebook>
+                        <page string="Work Progress">
+                            <field name="progress_line_ids">
+                                <list editable="bottom">
+                                    <field name="report_id" column_invisible="1"/>
+                                    <field name="task_id"/>
+                                    <field name="planned_qty"/>
+                                    <field name="completed_qty"/>
+                                    <field name="remarks"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Labor Attendance">
+                            <field name="labor_line_ids">
+                                <list editable="bottom">
+                                    <field name="report_id" column_invisible="1"/>
+                                    <field name="employee_id"/>
+                                    <field name="job_id"/>
+                                    <field name="hours"/>
+                                    <field name="status"/>
+                                </list>
+                            </field>
+
+                        </page>
+
+                        <page string="Equipment Usage">
+                            <field name="equipment_line_ids">
+                                <list editable="bottom">
+                                    <field name="report_id" column_invisible="1"/>
+                                    <field name="vehicle_id"/>
+                                    <field name="start_hour"/>
+                                    <field name="end_hour"/>
+                                    <field name="total_hour"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Material Consumption">
+                            <field name="material_line_ids">
+                                <list editable="bottom">
+                                      <field name="report_id" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="qty"/>
+                                    <field name="uom_id"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Site Issues">
+                            <field name="issue_line_ids">
+                                <list editable="bottom">
+                                      <field name="report_id" column_invisible="1"/>
+                                    <field name="issue_type"/>
+                                    <field name="priority"/>
+                                    <field name="description"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+     <record id="view_site_operation_report_tree_afasco" model="ir.ui.view">
+        <field name="name">site.operation.report.list.view</field>
+        <field name="model">site.operation.report</field>
+        <field name="arch" type="xml">
+            <list string="Site Operation" create="1" delete="1">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="project_id"/>
+                <field name="site_engineer_id"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+       <record id="action_site_operation_report" model="ir.actions.act_window">
+        <field name="name">Daily Site Operation Report</field>
+        <field name="res_model">site.operation.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_site_operation_report_tree_afasco"/>
+        <field name="context"></field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Daily Site Operation Report
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_site_operation_root"
+              name="Site Operations"
+              active="True"
+              groups="landscape_construction.group_site_operation"
+              web_icon="landscape_construction,static/description/ins.png"
+              sequence="10"
+    >
+
+        <menuitem id="menu_site_operation_report"
+                  name="Daily Site Reports"
+                  sequence="5"
+                  action="action_site_operation_report"/>
+    </menuitem>
+</odoo>

@@ -62,10 +62,7 @@ class SaleOrder(models.Model):
         string="Create Project",
         default=False
     )
-    # invoice_paid_ok = fields.Boolean(
-    #     compute="_compute_invoice_paid_ok",
-    #     string="Invoice Paid OK",
-    # )
+
     project_creation_approved = fields.Boolean(
         string="Project Creation Approved",
         default=False,
@@ -74,18 +71,10 @@ class SaleOrder(models.Model):
     job_name = fields.Char(
         string="Job Name"
     )
-    # project_id = fields.Many2one(
-    #     'project.project',
-    #     string="Project"
-    # )
-
-
-
-    # @api.depends("invoice_ids.payment_state")
-    # def _compute_invoice_paid_ok(self):
-    #     for order in self:
-    #         order.invoice_paid_ok = any(
-    #             inv.payment_state in ["paid","partial"] for inv in order.invoice_ids)
+    project_id = fields.Many2one(
+        'project.project',
+        string="Project"
+    )
 
     @api.depends('parent_task')
     def _compute_parent_task_sale_orders(self):
@@ -93,7 +82,7 @@ class SaleOrder(models.Model):
             if sale_order.parent_task != sale_order.estimated_task:
                 parent_tasks = []
                 current_task = sale_order.estimated_task
-                while current_task.parent_id:  # Assuming 'parent_id' is the field for parent task
+                while current_task.parent_id:
                     parent_tasks.append(current_task.parent_id.id)
                     current_task = current_task.parent_id
                 parent_sale_order = self.env['sale.order'].search([
@@ -106,8 +95,8 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         for order in self:
             self.estimated_task.sudo().state = '1_done'
-            self.crm_id.sudo().quotation_type = 'approved'
-            self.crm_id.sudo().action_set_won_rainbowman()
+            self.crm_id.quotation_type = 'approved'
+            self.crm_id.action_set_won_rainbowman()
         return super(SaleOrder, self).action_confirm()
 
 
@@ -123,44 +112,30 @@ class SaleOrder(models.Model):
                         }
         }
 
-    # def action_create_project(self):
-    #     for order in self:
-    #         if not order.invoice_paid_ok and not order.project_creation_approved:
-    #             raise UserError(
-    #                 _("Advance payment is not received. Please request approval before creating the project."))
-    #         if not order.job_name:
-    #             raise UserError(
-    #                 _("Please Add A Job Name !!."))
-    #         project = self.env["project.project"].sudo().create({
-    #             "name": order.job_name,
-    #             "partner_id": order.partner_id.id,
-    #             "sales_order": order.id,
-    #             "crm_lead_id": order.crm_id.id,
-    #             "quote_amount": order.amount_total,
-    #         })
-    #         order.create_pr =True
-    #         order.project_id = project.id
-    #         task_ids = self.env['project.task'].sudo().search([('crm_lead_id','=',order.crm_id.id)])
-    #         for task in task_ids:
-    #             task.project_id = project.id
-    #         order.message_post(body=_("Project %s created.") % project.name)
+    def action_create_project(self):
+        for order in self:
+            if not order.job_name:
+                raise UserError(
+                    _("Please Add A Job Name !!."))
+            project_manager = self.env['res.users'].search([
+                ('group_ids', 'in',[self.env.ref('landscape_construction.group_landscape_project_team_manager').id])
+            ], limit=1)
+            if not project_manager:
+                raise UserError(
+                    _("Please Configure A Project Manager !!."))
+            project = self.env["project.project"].create({
+                "name": order.job_name,
+                "partner_id": order.partner_id.id,
+                "sales_order": order.id,
+                "crm_lead_id": order.crm_id.id,
+                "quote_amount": order.amount_total,
+                "user_id":project_manager.id
+            })
+            order.create_pr =True
+            order.project_id = project.id
+            task_ids = self.env['project.task'].search(
+                [('crm_lead_id','=',order.crm_id.id)])
+            for task in task_ids:
+                task.sudo().project_id = project.id
+            order.message_post(body=_("Project %s created.") % project.name)
 
-    # def action_approve_project_creation(self):
-    #     for order in self:
-    #         if not self.env.user.has_group(
-    #                 "al_mayoof_customizatioon.group_project_creation_wo_advance"):
-    #             raise UserError(
-    #                 _("You are not allowed to approve project creation without advance payment."))
-    #         order.project_creation_approved = True
-    #         order.message_post(
-    #             body=_("Project creation approved by %s") % self.env.user.name)
-
-    # def _create_invoices(self, grouped=False, final=False, date=None):
-    #     """Link timesheets to the created invoices. Date interval is injected in the
-    #     context in sale_make_invoice_advance_inv wizard.
-    #     """
-    #     moves = super()._create_invoices(grouped=grouped, final=final,
-    #                                      date=date)
-    #     if self.project_id:
-    #         moves.project_id = self.id
-    #     return moves

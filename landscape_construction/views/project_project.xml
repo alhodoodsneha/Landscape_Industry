@@ -11,7 +11,142 @@
                        invisible="is_internal == True"/>
                 <field name="sales_order" readonly="1"
                        invisible="is_internal == True"/>
+                 <field name="prd_task" invisible="1"/>
+                <field name="del_task" invisible="1"/>
+                <field name="qa_qc_task" invisible="1"/>
+                <field name="ins_task" invisible="1"/>
              </xpath>
+             <xpath expr="//field[@name='account_id']" position="after">
+                <field name="labour_analytic_id" readonly="1"/>
+                <field name="subcontract_analytic_id" readonly="1"/>
+                <field name="material_analytic_id" readonly="1"/>
+                <field name="service_analytic_id" readonly="1"/>
+                <field name="project_loc" readonly="1"/>
+            </xpath>
+            <xpath expr="//group" position="after">
+                <group string="Project Invoicing"   groups="account.group_account_user,account.group_account_manager">
+                    <group>
+                        <field name="quote_amount" readonly="1"/>
+                      <field name="total_invoiced_amount" invisible="is_allow_invoice == False"    groups="account.group_account_user,account.group_account_manager"/>
+                      <field name="total_balance_amount" invisible="is_allow_invoice == False"    groups="account.group_account_user,account.group_account_manager"/>
+                      <field name="total_invoiced_amount_with_tax" invisible="is_allow_invoice == False"    groups="account.group_account_user,account.group_account_manager"/>
+                      <field name="pending_invoice_amount" invisible="is_allow_invoice == False"    groups="account.group_account_user,account.group_account_manager"/>
+                    </group>
+                </group>
+            </xpath>
+
+            <xpath expr="//page[@name='description']" position="after">
+            <page name="milestone_lines" string="Milestones" invisible="allow_milestones == False"
+                      groups="project.group_project_milestone">
+                    <group>
+                        <field name="milestone_count" readonly="1"/>
+                        <field name="milestone_count_reached" readonly="1"/>
+                        <field name="is_milestone_exceeded" readonly="1"/>
+                    </group>
+                      <separator string="Milestone Lines" colspan="4" style="font-size:25px;"/>
+                    <field name="milestone_ids" widget="one2many">
+                        <list string="Milestones" editable="top" create="1" delete="1" decoration-success="can_be_marked_as_done"  decoration-danger="is_deadline_exceeded and not can_be_marked_as_done">
+                            <field name="project_id" column_invisible="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="planned_start_date" optional="show"/>
+                            <field name="planned_end_date" optional="show"/>
+                            <field name="start_date"/>
+                            <field name="deadline"/>
+                            <field name="duration" readonly="1"/>
+                             <field name="progress" widget="project_task_progressbar" optional="show"/>
+                            <field name="starting_delay" optional="show" readonly="1"/>
+                            <field name="closing_delay" optional="show" readonly="1"/>
+                            <field name="is_reached" optional="show" />
+                            <field name="is_deadline_exceeded" column_invisible="1" readonly="1"/>
+                            <field name="task_count" column_invisible="1" readonly="1"/>
+                            <field name="can_be_marked_as_done" column_invisible="1" readonly="1"/>
+                            <field name="state" readonly="1" optional="show"/>
+                            <field name="remark" optional="hide"/>
+                            <button name="action_view_tasks_milestones"
+                                    type="object"
+                                    title="View Tasks"
+                                    string="View Tasks"
+                                    class="btn btn-link float-end"
+                                    invisible="task_count == 0"
+                                   />
+                            <button name="action_set_pending" string="Set to Pending" type="object"
+                                class="oe_highlight"
+                                invisible="state != 'draft'"/>
+                            <button name="action_set_in_progress" string="Set to In Progress" type="object"
+                                    class="oe_highlight"
+                                    invisible="state != 'pending'"/>
+                            <button name="action_set_completed" string="Set to Completed" type="object"
+                                    class="oe_highlight"
+                                    invisible="state != 'in_progress'"/>
+                        </list>
+                    </field>
+                </page>
+                 <page name="project_deliverable" string="Deliverables" invisible="is_internal == True">
+                      <field name="project_deliverable_ids" widget="one2many" readonly="is_project_manager == False">
+                          <list string="Deliverables" editable="bottom" create="1" delete="1" decoration-success="status == 'completed'"  decoration-warning="status == 'pending'" decoration-info="status == 'in_progress'">
+                            <field name="project_id" column_invisible="1"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="status"/>
+                            <field name="remark"/>
+                              <field name="per_of_weight" optional="hide" column_invisible="parent.is_allow_invoice == False" sum="Total Weight"/>
+                            <field name="invoiced_per" optional="hide"  groups="account.group_account_user,account.group_account_manager"
+                                   column_invisible="parent.is_allow_invoice == False" />
+                            <field name="balance_per" groups="account.group_account_user,account.group_account_manager" optional="hide" column_invisible="parent.is_allow_invoice == False"/>
+                            <field name="total_amount"  groups="account.group_account_user,account.group_account_manager" optional="hide" column_invisible="parent.is_allow_invoice == False" sum="Total Amount"/>
+                            <field name="invoiced_amount"  groups="account.group_account_user,account.group_account_manager" optional="hide" column_invisible="1" sum="Total Invoiced Amount"/>
+                            <field name="balance_amount"  groups="account.group_account_user,account.group_account_manager" optional="hide" column_invisible="1" sum="Total Balance Amount"/>
+                          </list>
+                      </field>
+                </page>
+            </xpath>
+              <xpath expr="//button[@name='action_open_share_project_wizard']" position="after">
+                  <button name="action_create_invoices"
+                        string="Create Invoice"
+                       groups="landscape_construction.group_allow_create_invoice"
+                        type="object" class="btn-primary"/>
+              </xpath>
+
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+
+                <button name="action_view_invoices" type="object"
+                        string="Invoices"
+                        groups="account.group_account_user,account.group_account_manager"
+                        invisible="is_internal == True"
+                        class="oe_stat_button"
+                        icon="fa-file-text-o">
+                </button>
+
+                 <button name="action_view_project_material_request"
+                        type="object"
+                         invisible="is_internal == True"
+                        class="oe_stat_button"
+                        icon="fa-list-ul"
+                >
+                    Material Request
+                </button>
+                <button name="action_view_project_purchase_order"
+                        type="object"
+                        class="oe_stat_button"
+                        invisible="is_internal == True"
+                        icon="fa-list-ul"
+                >
+                    Purchase Order
+                </button>
+
+                 <button name="action_view_daily_site_report"
+                        type="object"
+                        class="oe_stat_button"
+                         invisible="is_internal == True"
+                        icon="fa-pencil-square-o"
+                >
+                    Daily Site Report
+                </button>
+
+             </xpath>
+
+
         </field>
      </record>
 

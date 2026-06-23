@@ -6,12 +6,16 @@
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
              <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="_is_inspection_task" invisible="1"/>
-                 <field name="crm_lead_id"
+                <field name="_is_inspection_task"  invisible="1"/>
+                 <field name="crm_lead_id" options="{'no_edit': True, 'no_create': True, 'no_open': True}"
                        readonly="1"/>
-                     <field name="_is_design_task" invisible="1"/>
+                     <field name="_is_design_task"  invisible="1"/>
                      <field name="is_design_completed" invisible="1"/>
                   <field name="_is_estimation_task" invisible="1"/>
+                  <field name="is_production" invisible="1"/>
+                <field name="is_installation" invisible="1"/>
+                <field name="is_delivery" invisible="1"/>
+                <field name="is_qa_qc" invisible="1"/>
                 <field name="estimation_parent_id" invisible="1"/>
                 <field name="_revision_task" invisible="1"/>
                 <field name="revision_count" invisible="1"/>
@@ -67,7 +71,7 @@
                 </page>
                  <page name="material_estimation_ids"
                       string="Material Estimation"
-                      invisible="_is_estimation_task == False and _revision_task == False or trading_company == True">
+                      invisible="_is_estimation_task == False and _revision_task == False">
                     <field name="material_estimation_ids" widget="one2many">
                         <list string="Material Estimation" editable="bottom">
                             <field name="task_id" column_invisible="1"/>
@@ -92,7 +96,7 @@
                     </div>
                 </page>
                 <page name="labour_estimation" string="Labour Estimation"
-                      invisible="_is_estimation_task == False and _revision_task == False or trading_company == True">
+                      invisible="_is_estimation_task == False and _revision_task == False">
                     <field name="labour_estimation_ids" widget="one2many">
                         <list string="Labour Estimation" editable="bottom">
                             <field name="task_id" column_invisible="1"/>
@@ -116,7 +120,7 @@
                     </div>
                 </page>
                 <page name="other_over_head" string="Other Over Head"
-                      invisible="_is_estimation_task == False and _revision_task == False or trading_company == True">
+                      invisible="_is_estimation_task == False and _revision_task == False">
                     <field name="other_over_head_ids" widget="one2many">
                         <list string="Other Over Head" editable="bottom">
                             <field name="task_id" column_invisible="1"/>
