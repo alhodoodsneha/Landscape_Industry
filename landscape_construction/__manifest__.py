@@ -18,7 +18,7 @@
 
 {
     'name': 'Landscape Customization',
-    'version': '19.0.0.0.0',
+    'version': '19.0.0.0.1',
     'category': 'Sales/CRM',
     'summary': 'Landscape Customization',
     'description': 'Landscape Customization',
@@ -30,8 +30,8 @@
     ],
     'data': [
         'data/ir_sequence.xml',
-        'security/ir.model.access.csv',
         'security/security.xml',
+        'security/ir.model.access.csv',
         'views/inspection_team.xml',
         'views/ir_action_report.xml',
         'views/design_team.xml',
